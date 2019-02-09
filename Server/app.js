@@ -18,6 +18,8 @@ mongoose.connect(process.env.MONGODB_URI,
 	 () => {
 	console.log("Connected to mLab");
 });
+
+
 // Creates a client
 const client = new speech.SpeechClient();
 const textclient = new textToSpeech.TextToSpeechClient();
