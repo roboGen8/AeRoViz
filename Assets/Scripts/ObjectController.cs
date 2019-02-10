@@ -21,6 +21,13 @@ namespace GoogleVR.HelloVR
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+    using System;
+    using System.Threading;
+    using System.IO;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [RequireComponent(typeof(Collider))]
     public class ObjectController : MonoBehaviour
@@ -28,14 +35,45 @@ namespace GoogleVR.HelloVR
         // private Vector3 startingPosition;
         // private Renderer myRenderer;
 
-        
+        public GameObject toggle;
         public CanvasGroup gazedAtMaterial;
-        
-        void Start()
-        {
-            //myRenderer = GetComponent<Renderer>();
+        public const string connectionString = "mongodb://admin:Dasani112@ds145704.mlab.com:45704/aerovizdb";
+        public const int Max = 100;
+        public const int WaitTime = 3;
+
+        private MongoClient client;
+        private MongoServer server;
+        private MongoDatabase database;
+        private string collectionName;
+        public GameObject searchRes, map;
+        public GameObject res;
+        public Material red, green;
+        public string[][] zzz;
+        public GameObject holo, mainscreen;
+
+        void Start() {
+            client = new MongoClient(connectionString); 
+            server = client.GetServer();
+            database = server.GetDatabase("aerovizdb");
             SetGazedAt(false);
+            // var collection = database.GetCollection<Defective2018>("defective2018");
+            // var builder = Builders<BsonDocument>.Filter;
+            // // IMongoQuery filter = (IMongoQuery)builder.Eq("Locale_Reference", this.name + ".Airport");
+            // var filter = builder.Where(flight => flight.Local_Reference == this.name + ".Airport");
+            // var result = collection.Find(filter).ToList();
+            // IMongoQuery filter = null;
+            // filter = (IMongoQuery)new BsonDocument() {
+            // {"Local_Reference", this.name + ".Airtport"}
+            // };
+           // var collection = db.GetCollection<Product>("products");
+            // NOTE: p.Colors is of type string[]
+            // var query = Query.EQ(p => p.Local_Reference, this.name + ".Airport");
+            // MongoCursor r = collection.Find(query);
+            // foreach (var r in result) {
+            //     Debug.Log(r);
+            // }
         }
+        
 
         public void SetGazedAt(bool gazedAt)
         {
@@ -45,7 +83,42 @@ namespace GoogleVR.HelloVR
                 gazedAtMaterial.alpha = 0.0f;
             }
         }
+        public void SetClicked() {
+            if (toggle.activeSelf) {
+                toggle.SetActive(false);
+            } else {
+                toggle.SetActive(true);
+            }
+        }
+        public void SearchResults() {
 
+            //make a imongoquery use distinct location, query
+            searchRes.SetActive(true);
+            map.SetActive(false);
+            // var collection = database.GetCollection<BsonDocument>("defective2018");
+            // var builder = Builders<BsonDocument>.Filter;
+            // IMongoQuery filter = (IMongoQuery)builder.Eq("Locale_Reference", this.name + ".Airport");
+            // var result = collection.Find(filter).ToList();
+            // int count = 0;
+            // for (int i = 0; i < 400; i++) {
+
+            //     count++;
+            //     if (count == 10) break;
+            // } 
+           for (int i = 0; i < 10; i++) {
+                GameObject new1 = Instantiate(res, searchRes.transform.position, searchRes.transform.rotation);
+                new1.transform.SetParent(searchRes.transform);
+                Text flightname = new1.transform.Find("flightname").GetComponent<Text>();
+                flightname.text = "1508049";
+                Text details = new1.transform.Find("details").GetComponent<Text>();
+                details.text = "ZZZ Airport \n B737";
+           }
+            
+        }
+        public void PullHolo() {
+            holo.SetActive(true);
+            mainscreen.SetActive(false);
+        }
 //         public void Reset()
 //         {
 //             int sibIdx = transform.GetSiblingIndex();
