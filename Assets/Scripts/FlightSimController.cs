@@ -30,20 +30,30 @@ public class FlightSimController : MonoBehaviour
 	private MongoDatabase database;
 	private string collectionName;
 	float deltatime;
-
-
+	float oldtime;
+	float starttime;
 	void Start() {
-		// client = new MongoClient(connectionString); 
+		// client = new MongoClient(connectionString);
   //       server = client.GetServer();
   //       database = server.GetDatabase("aerovizdb");
   		deltatime = Time.time;
+		oldtime = 0;
+		starttime = 0;
 	}
 
 	void Update() {
 		//update collectionName here based on user input
 		location.text = "ATL - CAI";
-		coords.text = plane.transform.position.x + "\n" + plane.transform.position.y + "\n" + plane.transform.position.z;
-				
+		coords.text = plane.transform.position.x + " \n" + plane.transform.position.y + " \n" + plane.transform.position.z;
+		if (Time.time - oldtime >= 1) {
+			if (starttime < 10) {
+				time.text = "13:0" + starttime++;
+			} else {
+				time.text = "13:" + starttime++;
+			}
+
+			oldtime = Time.time;
+		}
 		if (Time.time - deltatime > 16) {
 			alert.alpha = 1f;
 			warning.text = "2 hours in cruise at 34;000 ft we experienced a L1 (Captain's front windshield) outer pane failure. The L FWD Window EICAS message illuminated. There was brief arcing of the window heat probe. We also had a loud cracking sound.We ran the L FWD WINDOW QRH checklist. We turned off the L FWD Window Heat; then ran the Window Damage checklist. Once we determined that the outer pane failed but the inner pane was intact; we elected to continue to [destination] per the checklist.We decided to [advise ATC] for landing as I could not see well enough out the window to taxi off the runway and to the gate.The First Officer made the landing and after ARFF checked us for any other damage; we shut down the engines and awaited towing.We gave Ops and Dispatch plenty of notice that we would need to be towed off the runway; however when we landed there was no tug. We called Ops continuously asking for a tug and it took 30 minutes for them to finally show up. This caused [a] runway to be needlessly shut down. Once the tug finally showed up we were towed to the gate.The outer pane of the L1 window failed due to a short in the window heat system.";
@@ -58,7 +68,7 @@ public class FlightSimController : MonoBehaviour
 			}
 			deltatime = -500;
 		}
-		
+
 	}
 
 	void Simulation() {
@@ -98,10 +108,10 @@ public class FlightSimController : MonoBehaviour
 			int count = 0;
 			while (count < 5000000) {
 				coords.text = plane.transform.position.x + "\n" + plane.transform.position.y + "\n" + plane.transform.position.z;
-				
+
 				count++;
 			}
 		}
-		//accessing plane's transform and updating it is like plane.transform and shit 
+		//accessing plane's transform and updating it is like plane.transform and shit
 	}
 }

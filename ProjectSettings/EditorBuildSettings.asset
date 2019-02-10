@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/AeroViz.unity
+    guid: af687149f9a1a1548a84662d1ea7c6c7
   m_configObjects: {}

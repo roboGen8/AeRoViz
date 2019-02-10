@@ -49,10 +49,10 @@ namespace GoogleVR.HelloVR
         public GameObject res;
         public Material red, green;
         public string[][] zzz;
-        public GameObject holo, mainscreen;
+        public GameObject holo, mainscreen, plane;
 
         void Start() {
-            client = new MongoClient(connectionString); 
+            client = new MongoClient(connectionString);
             server = client.GetServer();
             database = server.GetDatabase("aerovizdb");
             SetGazedAt(false);
@@ -73,7 +73,7 @@ namespace GoogleVR.HelloVR
             //     Debug.Log(r);
             // }
         }
-        
+
 
         public void SetGazedAt(bool gazedAt)
         {
@@ -104,7 +104,7 @@ namespace GoogleVR.HelloVR
 
             //     count++;
             //     if (count == 10) break;
-            // } 
+            // }
            for (int i = 0; i < 10; i++) {
                 GameObject new1 = Instantiate(res, searchRes.transform.position, searchRes.transform.rotation);
                 new1.transform.SetParent(searchRes.transform);
@@ -113,11 +113,12 @@ namespace GoogleVR.HelloVR
                 Text details = new1.transform.Find("details").GetComponent<Text>();
                 details.text = "ZZZ Airport \n B737";
            }
-            
+
         }
         public void PullHolo() {
             holo.SetActive(true);
             mainscreen.SetActive(false);
+            plane.SetActive(true);
         }
 //         public void Reset()
 //         {
