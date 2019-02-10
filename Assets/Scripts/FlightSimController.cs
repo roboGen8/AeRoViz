@@ -29,7 +29,11 @@ public class FlightSimController : MonoBehaviour
         string collectionName = "flight1as";
 
 		MongoCollection collection = database.GetCollection(collectionName);
-		//Debug.Log("THis is collection: " + collection.find("5c5f62c4864b4a20847a1dd5"));
+		//the following doesn't work bc distinct returns a generic set for some reason
+		//int[] sec = collection.Distinct<int>("Offset_sec");
+		foreach (int i in collection.Distinct<int>("Offset_sec")) {
+			Debug.Log(i);
+		}
 	}
 
 	public void Simulation() {
