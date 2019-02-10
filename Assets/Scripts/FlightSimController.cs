@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
+using System.Threading;
+using System.IO;
 
 public class FlightSimController : MonoBehaviour
 {
@@ -12,6 +17,20 @@ public class FlightSimController : MonoBehaviour
 	public Material green;
 	public Material red;
 	public TextAsset data;
+
+	public const string connectionString = "mongodb://admin:Dasani112@ds145704.mlab.com:45704/aerovizdb";
+    public const int Max = 100;
+	public const int WaitTime = 3;
+
+	void Start() {
+		MongoClient client = new MongoClient(connectionString); 
+        MongoServer server = client.GetServer();
+        MongoDatabase database = server.GetDatabase("aerovizdb");
+        string collectionName = "flight1as";
+
+		MongoCollection collection = database.GetCollection(collectionName);
+		//Debug.Log("THis is collection: " + collection.find("5c5f62c4864b4a20847a1dd5"));
+	}
 
 	public void Simulation() {
 		////how to update weather sprite
